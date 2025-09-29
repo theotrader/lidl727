@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Zoektool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        li {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        .product-code {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Typ een productnaam...">
+        <ul id="suggestions"></ul>
+        <div id="productCode" class="product-code"></div>
+    </div>
+
+    <script>
+        const products = [
+            { name: "Bananen", code: "12" },
+            { name: "Appels", code: "5678" },
+            { name: "Peren", code: "9012" },
+            { name: "Sinaasappels", code: "3456" },
+            { name: "Druiven", code: "7890" },
+            { name: "Aardbeien", code: "2345" },
+            { name: "Mango's", code: "6789" },
+            { name: "Kersen", code: "0123" },
+            { name: "Ananas", code: "4567" },
+            { name: "Perziken", code: "8901" }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsList = document.getElementById('suggestions');
+        const productCodeDisplay = document.getElementById('productCode');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            suggestionsList.innerHTML = '';
+            if (query.length === 0) return;
+
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(query)
+            );
+
+            filteredProducts.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = product.name;
+                li.addEventListener('click', () => {
+                    searchInput.value = product.name;
+                    productCodeDisplay.textContent = `Productcode: ${product.code}`;
+                    suggestionsList.innerHTML = '';
+                });
+                suggestionsList.appendChild(li);
+            });
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.toLowerCase();
+                const product = products.find(p => p.name.toLowerCase() === query);
+                if (product) {
+                    productCodeDisplay.textContent = `Productcode: ${product.code}`;
+                    suggestionsList.innerHTML = '';
+                } else {
+                    productCodeDisplay.textContent = 'Product niet gevonden';
+                }
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+                suggestionsList.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>
