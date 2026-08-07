@@ -48,8 +48,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
             transition: background-color 0.2s;
+        }
+        #micButton svg {
+            width: 20px;
+            height: 20px;
+            fill: #555;
         }
         #micButton:hover {
             background-color: #ddd;
@@ -57,6 +61,9 @@
         #micButton.listening {
             background-color: #ff4d4d;
             animation: pulse 1s infinite;
+        }
+        #micButton.listening svg {
+            fill: white;
         }
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.5); }
@@ -101,7 +108,12 @@
     <div class="search-container">
         <div class="input-row">
             <input type="text" id="searchInput" placeholder="Typ een productnaam...">
-            <button id="micButton" title="Spreek een productnaam in">🎤</button>
+            <button id="micButton" title="Spreek een productnaam in">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3z"/>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-0.49 6-3.39 6-6.92h-2z"/>
+                </svg>
+            </button>
         </div>
         <div id="micStatus"></div>
         <ul id="suggestions"></ul>
